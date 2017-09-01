@@ -19,19 +19,23 @@ var spRest = (function() {
         restGetCall(path, callback);
     }
     function getListItems(listName, callback) {
-        var path = restPath + `Lists/GetByTitle('${listName}')/items`;
+//        var path = restPath + `Lists/GetByTitle('${listName}')/items`;
+	 var path = restPath + "Lists/GetByTitle('" + listName + "')/items";
         restGetCall(path, callback);
     }
     function getListItemsSelectColumns(listName, columns, callback) {
-        var path = restPath + `Lists/GetByTitle('${listName}')/items?$select=` + columns.join();
+//        var path = restPath + `Lists/GetByTitle('${listName}')/items?$select=` + columns.join();
+	 var path = restPath + "Lists/GetByTitle('" + listName + "')/items?$select=" + columns.join();
         restGetCall(path, callback);
     }
     function getListItem(listName, listItemId, callback) {
-        var path = restPath + `Lists/GetByTitle('${listName}')/items(${listItemId})`;
+//        var path = restPath + `Lists/GetByTitle('${listName}')/items(${listItemId})`;
+	 var path = restPath + "Lists/GetByTitle('" + listName + "')/items('" + listItemId + "')";
         restGetCall(path, callback);
     }
     function getListItemSelectColumns(listName, listItemId, columns, callback) {
-        var path = restPath + `Lists/GetByTitle('${listName}')/items(${listItemId})?$select=` + columns.join();
+//        var path = restPath + `Lists/GetByTitle('${listName}')/items(${listItemId})?$select=` + columns.join();
+	 var path = restPath + "Lists/GetByTitle('" + listName + "')/items('" + listItemId + "')?$select=" + columns.join();
         restGetCall(path, callback);
     }
 
@@ -49,7 +53,8 @@ var spRest = (function() {
         });
     }
     function postListItem(listName, item, callback) {
-        var path = restPath + `Lists/GetByTitle('${listName}')/items`;
+//        var path = restPath + `Lists/GetByTitle('${listName}')/items`;
+	var path = restPath + "Lists/GetByTitle('" + listName + "')/items";
         restPostCall(path, item, callback);
     }  
 
