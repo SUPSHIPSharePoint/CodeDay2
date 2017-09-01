@@ -1,0 +1,110 @@
+    <h1>SUPSHIP SharePoint REST with jQuery</h1>
+    <div id="jsonTableDiv"></div>
+
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>  
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+    <script>
+	console.log("Script Started");
+        var urlParams;
+        (window.onpopstate = function () {
+            var match,
+                pl     = /\+/g,  // Regex for replacing addition symbol with a space
+                search = /([^&=]+)=?([^&]*)/g,
+                decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+                query  = window.location.search.substring(1);
+
+            urlParams = {};
+            while (match = search.exec(query))
+            urlParams[decode(match[1])] = decode(match[2]);
+        })();
+
+        var ajax =  (function() {
+             function send(path, verb, callback) {
+               $.ajax({
+                    url: path,
+                    type: verb,
+                    xhrFields: { withCredentials: true },
+                    headers: { "Accept": "application/json;odata=verbose" },
+                    success: function (data) { callback(data); },
+                    error: function (data) { console.log(data); }
+                });
+            }
+
+            return { send: send }
+        }());
+
+        var dom =  (function() {
+            function createTableFromJSON(json, propsToDisplay) {
+                // creates a <table> element and a <tbody> element
+                var table = document.createElement("table");
+                var thead = document.createElement("thead");
+                var tbody = document.createElement("tbody");
+
+                // Create Column Headers
+                var tr = document.createElement("tr");
+                propsToDisplay.forEach(
+                    function(prop) { 
+                        var th = document.createElement("th");
+                        var textNode = document.createTextNode(prop);
+                        th.appendChild(textNode);
+                        tr.appendChild(th);    
+                    }
+                );
+                thead.appendChild(tr);
+
+                // creating all cells
+                json.forEach(function(quote) {
+
+                    // creates a table row
+                    var tr = document.createElement("tr");
+
+                    propsToDisplay.forEach(
+                        function(prop) { 
+                            var td = document.createElement("td");
+                            var textNode = document.createTextNode(quote[prop]);
+                            td.appendChild(textNode);
+                            tr.appendChild(td);    
+                        }
+                    );
+
+                    // add the row to the end of the table body
+                    tbody.appendChild(tr);
+                });
+
+                // put the <thead> and <tbody> in the <table>
+                table.appendChild(thead);
+                table.appendChild(tbody);
+
+                // sets the border attribute of table
+                table.setAttribute("class", "display");
+                table.setAttribute("id", "table_id");   
+
+                return table;
+            } 
+
+            return { createTableFromJSON: createTableFromJSON }
+        }());
+
+        function dataLoaded(data) {
+            var table = dom.createTableFromJSON(data.d.results, columnsToDisplay);
+            var div = document.getElementById("jsonTableDiv");
+            div.appendChild(table);
+            $('#table_id').DataTable();
+        }
+        
+        var columnsToDisplay = [
+            "Idea_x0020_Name", 
+            "Score_x0020_Cost_x0020_Avoidance", 
+            "Score_x0020_Schedule_x0020_Impac", 
+            "Score_x0020_Quality_x0020_of_x00"];
+//        var spServerUrl = "http://sharepoint.geeklearn.com/iNation";
+        var spServerUrl = _spPageContextInfo.webAbsoluteUrl;
+	console.log("spServerUrl = " + spServerUrl);
+        if (urlParams["sp"] != null) spServerUrl = urlParams["sp"];
+        var spListRestUrl = 
+            spServerUrl + 
+            "/_api/Lists/GetByTitle('Innovations')/items?$select=" + 
+            columnsToDisplay.join();
+        ajax.send(spListRestUrl, "GET", dataLoaded);
+     </script>

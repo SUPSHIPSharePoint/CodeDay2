@@ -1,0 +1,105 @@
+<h1>We Are Excited to Hear Your Ideas!</h1>
+<h2>Please fill us in on the details...</h2>
+<br/>
+
+<div id="rendered-form">
+    <div class="rendered-form">
+        <div class="fb-text form-group field-ideaName"><label for="ideaName" class="fb-text-label">What shall we call your idea?<span class="tooltip-element" tooltip="Please enter your idea name here...">?</span></label>
+            <input type="text" class="form-control" name="ideaName" maxlength="255" id="ideaName" title="Please enter your idea name here..."></div>
+        <div class="fb-radio-group form-group field-scoreCostAvoidance">
+            <label for="scoreCostAvoidance" class="fb-radio-group-label">Score Cost Avoidance<span class="tooltip-element" tooltip="One a scale of one to three, how costly is it to NOT implement your idea?">?</span></label>
+            <div class="radio-group">
+                <div class="radio-inline">
+                    <input name="scoreCostAvoidance" id="scoreCostAvoidance-0" value="One Star" type="radio">
+                    <label for="scoreCostAvoidance-0">One Star (Not Very Costly)</label></div>
+                <div class="radio-inline">
+                    <input name="scoreCostAvoidance" id="scoreCostAvoidance-1" value="Two Star" type="radio">
+                    <label for="scoreCostAvoidance-1">Two Star (Pretty Costly)</label></div>
+                <div class="radio-inline">
+                    <input name="scoreCostAvoidance" id="scoreCostAvoidance-2" value="Three Star" type="radio">
+                    <label for="scoreCostAvoidance-2">Three Star (Raise the Govt Debt Limit)</label></div>
+            </div>
+        </div>
+        <div class="fb-radio-group form-group field-scoreEaseOfImplementation"><label for="scoreEaseOfImplementation" class="fb-radio-group-label">Score Ease Of Implementation<span class="tooltip-element" tooltip="One a scale of one to three, how easy is it to implement your idea?">?</span></label>
+            <div class="radio-group">
+                <div class="radio-inline">
+                    <input name="scoreEaseOfImplementation" id="scoreEaseOfImplementation-0" value="One Star" type="radio">
+                    <label for="scoreEaseOfImplementation-0">One Star (Pretty Hard Actually)</label></div>
+                <div class="radio-inline">
+                    <input name="scoreEaseOfImplementation" id="scoreEaseOfImplementation-1" value="Two Star" type="radio">
+                    <label for="scoreEaseOfImplementation-1">Two Star (Not too bad...)</label></div>
+                <div class="radio-inline">
+                    <input name="scoreEaseOfImplementation" id="scoreEaseOfImplementation-2" value="Three Star" type="radio">
+                    <label for="scoreEaseOfImplementation-2">Three Star (Piece of Cake)</label></div>
+            </div>
+        </div>
+        <div class="fb-radio-group form-group field-scoreQualityOfLife"><label for="scoreQualityOfLife" class="fb-radio-group-label">Score Quality Of Life<span class="tooltip-element" tooltip="One a scale of one to three, how much better will we be if we implement your idea?">?</span></label>
+            <div class="radio-group">
+                <div class="radio-inline">
+                    <input name="scoreQualityOfLife" id="scoreQualityOfLife-0" value="One Star" type="radio">
+                    <label for="scoreQualityOfLife-0">One Star (Bit better than now)</label></div>
+                <div class="radio-inline">
+                    <input name="scoreQualityOfLife" id="scoreQualityOfLife-1" value="Two Star" type="radio">
+                    <label for="scoreQualityOfLife-1">Two Star (Happy Happy!)</label></div>
+                <div class="radio-inline">
+                    <input name="scoreQualityOfLife" id="scoreQualityOfLife-2" value="Three Star" type="radio">
+                    <label for="scoreQualityOfLife-2">Three Star (Paradise on earth...)</label></div>
+            </div>
+        </div>
+        <div class="fb-radio-group form-group field-scoreScheduleImpact"><label for="scoreScheduleImpact" class="fb-radio-group-label">Score Schedule Impact<span class="tooltip-element" tooltip="One a scale of one to three, how much time will it take to implement your idea?">?</span></label>
+            <div class="radio-group">
+                <div class="radio-inline">
+                    <input name="scoreScheduleImpact" id="scoreScheduleImpact-0" value="One Star" type="radio">
+                    <label for="scoreScheduleImpact-0">One Star (Year or so...)</label>
+                </div>
+                <div class="radio-inline">
+                    <input name="scoreScheduleImpact" id="scoreScheduleImpact-1" value="Two Star" type="radio">
+                    <label for="scoreScheduleImpact-1">Two Star (Month, maybe two)</label></div>
+                <div class="radio-inline">
+                    <input name="scoreScheduleImpact" id="scoreScheduleImpact-2" value="Three Star" type="radio">
+                    <label for="scoreScheduleImpact-2">Three Star (Couple of hours)</label></div>
+            </div>
+        </div>
+        <div class="fb-button form-group field-sendyouridea">
+            <button type="button" class="btn btn-success" name="sendyouridea" style="success" id="sendyouridea" onclick="saveIdea()">Send Your Idea</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
+<script>
+    // Load spRest.js using _spPageContextInfo.webAbsoluteUrl
+    var element = document.createElement('script');
+    element['src'] = _spPageContextInfo.webAbsoluteUrl + "/SiteAssets/SitePages/iNation/spRest.js";
+    document['body'].appendChild(element);
+
+    function showResults(data) {
+        console.log(data);
+    }
+
+    function thankYou(data) {
+        showResults(data);
+        window.location.replace("ThankYou.aspx");
+    }
+
+    function saveIdea() {
+        console.log("saveIdea() called");
+
+        // Students may need to adjust column names here
+        var idea = {
+            "Idea_x0020_Name": $("#ideaName").val(),
+            "Score_x0020_Cost_x0020_Avoidance": $("input[name='scoreCostAvoidance']:checked").val(),
+            "Score_x0020_Ease_x0020_Of_x0020_": $("input[name='scoreEaseOfImplementation']:checked").val(),
+            "Score_x0020_Quality_x0020_Of_x00": $("input[name='scoreQualityOfLife']:checked").val(),
+            "Score_x0020_Schedule_x0020_Impac": $("input[name='scoreScheduleImpact']:checked").val(),
+            "__metadata": { "type": "SP.Data.IdeasListItem" }
+        };
+        console.log(idea); 
+        spRest.postListItem("Ideas", idea, thankYou);
+
+        // spRest.getLists(showResults);
+        // spRest.getListItems("Innovations", showResults);
+        // spRest.getListItem("Innovations", 4, showResults);
+    }
+</script>

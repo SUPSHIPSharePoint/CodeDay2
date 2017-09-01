@@ -1,0 +1,74 @@
+    <h1>SUPSHIP SharePoint REST Test - Load and Display Lists</h1>
+    <div id="jsonTableDiv"></div>
+
+    <script>
+        var ajax =  (function() {
+            var dataLoadedCallback;
+
+            function send(path, verb, callback) {
+                dataLoadedCallback = callback;
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = xhrStateChanged;
+                xhr.open(verb, path);
+                xhr.withCredentials = true;
+                xhr.setRequestHeader('Accept', 'application/json;odata=verbose');
+                xhr.send();
+            }
+            
+            function xhrStateChanged() {
+                console.log("xhrStateChanged() called");
+                if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                    dataLoadedCallback(JSON.parse(this.responseText));
+                }
+            }
+
+            return { send: send }
+        }());
+
+        var dom =  (function() {
+            function createTableFromJSON(json, propsToDisplay) {
+                // creates a <table> element and a <tbody> element
+                var table = document.createElement("table");
+                var tbody = document.createElement("tbody");
+
+                // creating all cells
+                json.forEach(function(quote) {
+
+                    // creates a table row
+                    var tr = document.createElement("tr");
+
+                    propsToDisplay.forEach(
+                        function(prop) { 
+                            var td = document.createElement("td");
+                            var textNode = document.createTextNode(quote[prop]);
+                            td.appendChild(textNode);
+                            tr.appendChild(td);    
+                        }
+                    );
+
+                    // add the row to the end of the table body
+                    tbody.appendChild(tr);
+                });
+
+                // put the <tbody> in the <table>
+                table.appendChild(tbody);
+
+                return table;
+            } 
+
+            return { createTableFromJSON: createTableFromJSON }
+        }());
+
+        function dataLoaded(data) {
+            console.log(typeof data);
+            console.log(data);
+            var table = dom.createTableFromJSON(data.d.results, 
+                ["Title", "ItemCount", "Description"]);
+            var div = document.getElementById("jsonTableDiv");
+            div.appendChild(table);
+        }
+        
+        var spServerUrl = "";
+        var spListRestUrl = spServerUrl + "/" + "_api/Lists";
+        ajax.send(spListRestUrl, "GET", dataLoaded);
+     </script>

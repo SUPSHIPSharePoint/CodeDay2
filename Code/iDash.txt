@@ -1,0 +1,77 @@
+<table width="100%">
+    <tr>
+        <td width="45%" valign="top">
+            <h2>Ideas</h2>
+            <div id="divIdeas"></div>
+        </td>
+        <td width="100px">&nbsp;</td>
+        <td width="45%" valign="top">
+                <h2>Innovation Ideas</h2>
+                <div id="divInnovationTasks"></div>
+        </td>    
+    </tr>
+    <tr>
+        <td colspan="3" width="100%" valign="top">
+            <h2>Innovations</h2>
+            <div id="divInnovations"></div>
+        </td>
+    </tr>
+</table>
+
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>  
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+<div id="scripts"></div>
+<script>
+    // Load spRest.js using _spPageContextInfo.webAbsoluteUrl
+    var spRestScript = document.createElement('script');
+    spRestScript['src'] = _spPageContextInfo.webAbsoluteUrl + "/SiteAssets/SitePages/iNation/spRest.js";
+    $('#scripts').append(spRestScript);
+
+    // Load createTableScript.js using _spPageContextInfo.webAbsoluteUrl
+    var createTableScript = document.createElement('script');
+    createTableScript['src'] = _spPageContextInfo.webAbsoluteUrl + "/SiteAssets/SitePages/iNation/createTable.js";
+    $('#scripts').append(createTableScript);
+   
+    $("document").ready(function() {
+        function displayInnovations(data) {
+            var table = dom.createTableFromJSON(data.d.results, columnsToDisplayInnovations);
+            table.setAttribute("id", "tableInnovations");  
+            $("#divInnovations").append(table);
+            $('#tableInnovations').DataTable();
+        }
+
+        function displayInnovationTasks(data) {
+            var table = dom.createTableFromJSON(data.d.results, columnsToDisplayInnovationTasks);
+            table.setAttribute("id", "tableInnovationTasks");  
+            $("#divInnovationTasks").append(table);
+            $('#tableInnovationTasks').DataTable();
+        }
+
+        function displayIdeas(data) {
+            var table = dom.createTableFromJSON(data.d.results, columnsToDisplayIdeas);
+            table.setAttribute("id", "tableIdeas");  
+            $("#divIdeas").append(table);
+            $('#tableIdeas').DataTable();
+        }
+
+        var columnsToDisplayInnovations = [
+            "Idea_x0020_Name", 
+            "Innovation_x0020_Manager12Id",
+            "Innovation_x0020_Status"
+        ];
+
+            var columnsToDisplayInnovationTasks = [
+            "Title",
+            "WorkflowOutcome"
+        ];
+
+            var columnsToDisplayIdeas = [
+            "Idea_x0020_Name",
+        ];
+        
+        spRest.getListItemsSelectColumns('Innovations', columnsToDisplayInnovations, displayInnovations);
+        spRest.getListItemsSelectColumns('Innovation%20Tasks', columnsToDisplayInnovationTasks, displayInnovationTasks);
+        spRest.getListItemsSelectColumns('Ideas', columnsToDisplayIdeas, displayIdeas);
+    });
+</script>
