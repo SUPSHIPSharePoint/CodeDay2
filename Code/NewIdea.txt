@@ -90,8 +90,8 @@
         var idea = {
             "Idea_x0020_Name": $("#ideaName").val(),
             "Score_x0020_Cost_x0020_Avoidance": $("input[name='scoreCostAvoidance']:checked").val(),
-            "Score_x0020_Ease_x0020_Of_x0020_": $("input[name='scoreEaseOfImplementation']:checked").val(),
-            "Score_x0020_Quality_x0020_Of_x00": $("input[name='scoreQualityOfLife']:checked").val(),
+            "Score_x0020_Ease_x0020_of_x0020_": $("input[name='scoreEaseOfImplementation']:checked").val(),
+            "Score_x0020_Quality_x0020_of_x00": $("input[name='scoreQualityOfLife']:checked").val(),
             "Score_x0020_Schedule_x0020_Impac": $("input[name='scoreScheduleImpact']:checked").val(),
             "__metadata": { "type": "SP.Data.IdeasListItem" }
         };
